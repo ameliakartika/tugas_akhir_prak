@@ -77,7 +77,7 @@ class MahasiswaController extends Controller
         if ($request->mahasiswa->nim !== $mahasiswa->nim) {
             return \response()->json([
                 "success" => false,
-                "message" => "matakuliah added to mahasiswa"
+                "message" => "matakuliah cannot added to mahasiswa"
             ]);
         }
 
@@ -96,7 +96,7 @@ class MahasiswaController extends Controller
         if ($request->mahasiswa->nim !== $mahasiswa->nim) {
             return \response()->json([
                 "success" => false,
-                "message" => "matakuliah deleted to mahasiswa"
+                "message" => "matakuliah cannot deleted to mahasiswa"
             ]);
         }
 
