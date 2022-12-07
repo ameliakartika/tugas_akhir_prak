@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\mahasiswa;
+use App\Models\matakuliah;
 use Illuminate\Http\Request;
 
 class MahasiswaController extends Controller
@@ -69,9 +70,17 @@ class MahasiswaController extends Controller
         ], 200);
     }
 
-    public function addMatakuliah(Request $request, $mkId)
+    public function addMatakuliah(Request $request, $nim, $mkId)
     {
-        $mahasiswa = $request->mahasiswa;
+        $mahasiswa = Mahasiswa::findOrFail($nim);
+
+        if ($request->mahasiswa->nim !== $mahasiswa->nim) {
+            return \response()->json([
+                "success" => false,
+                "message" => "matakuliah added to mahasiswa"
+            ]);
+        }
+
         $mahasiswa->matakuliah()->attach([$mkId]);
 
         return response()->json([
@@ -80,9 +89,17 @@ class MahasiswaController extends Controller
         ]);
     }
 
-    public function deleteMatakuliah(Request $request, $mkId)
+    public function deleteMatakuliah(Request $request, $nim, $mkId)
     {
-        $mahasiswa = $request->mahasiswa;
+        $mahasiswa = Mahasiswa::findOrFail($nim);
+
+        if ($request->mahasiswa->nim !== $mahasiswa->nim) {
+            return \response()->json([
+                "success" => false,
+                "message" => "matakuliah deleted to mahasiswa"
+            ]);
+        }
+
         $mahasiswa->matakuliah()->detach([$mkId]);
         return response()->json([
             'success' => true,
